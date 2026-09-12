@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>The Amber Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ---- Reskin per venue by editing these ---- */
+      --bg:#faf7f2;
+      --card:#ffffff;
+      --ink:#211a17;
+      --muted:#8a7d74;
+      --accent:#a9772f;      /* brass / amber — primary accent */
+      --accent-ink:#ffffff;
+      --line:#eae2d7;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:'Inter',sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{max-width:480px; margin:0 auto; padding:0 18px 60px;}
+
+    /* HERO */
+    .hero-media{
+      width:100%;
+      height:260px;
+      object-fit:cover;
+      display:block;
+      background:linear-gradient(160deg, #3a2c22, #211a17);
+    }
+    .hero-body{
+      text-align:center;
+      padding:26px 0 18px;
+    }
+    .tag-pill{
+      display:inline-block;
+      font-size:12.5px;
+      color:var(--accent);
+      background:rgba(169,119,47,0.1);
+      padding:5px 12px;
+      border-radius:20px;
+      font-weight:600;
+      margin-bottom:14px;
+    }
+    h1{
+      font-family:'Fraunces',serif;
+      font-weight:600;
+      font-size:34px;
+      margin:0;
+    }
+    .tagline{
+      color:var(--muted);
+      font-size:15px;
+      margin-top:8px;
+    }
+
+    .review-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:20px;
+      background:var(--accent);
+      color:var(--accent-ink);
+      text-decoration:none;
+      padding:13px 22px;
+      border-radius:11px;
+      font-weight:600;
+      font-size:14.5px;
+    }
+
+    .action-row{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    .action-chip{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:10px 15px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--ink);
+      font-size:13.5px;
+      font-weight:500;
+    }
+    .action-chip svg{stroke:var(--accent); flex-shrink:0;}
+
+    /* GALLERY */
+    .gallery{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      margin-top:28px;
+      padding-bottom:4px;
+      scroll-snap-type:x mandatory;
+    }
+    .gallery img{
+      width:78%;
+      flex-shrink:0;
+      height:190px;
+      object-fit:cover;
+      border-radius:var(--radius);
+      scroll-snap-align:start;
+      background:var(--line);
+    }
+
+    /* MENU */
+    .menu-section{margin-top:38px;}
+    .menu-section h2{
+      font-family:'Fraunces',serif;
+      font-size:24px;
+      font-weight:600;
+      margin:0 0 16px;
+    }
+    .tabs{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:6px;
+      margin-bottom:20px;
+    }
+    .tab-btn{
+      flex-shrink:0;
+      border:1px solid var(--line);
+      background:var(--card);
+      color:var(--muted);
+      padding:9px 16px;
+      border-radius:20px;
+      font-size:13.5px;
+      font-weight:600;
+      cursor:pointer;
+      font-family:'Inter',sans-serif;
+      transition:background .12s, color .12s, border-color .12s;
+    }
+    .tab-btn.active{
+      background:var(--ink);
+      color:var(--bg);
+      border-color:var(--ink);
+    }
+    .menu-panel{display:none;}
+    .menu-panel.active{display:block;}
+    .menu-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:12px;
+      padding:13px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .menu-item:last-child{border-bottom:none;}
+    .item-name{font-size:15px; font-weight:500;}
+    .item-note{font-size:12.5px; color:var(--muted); margin-top:2px;}
+    .item-price{
+      font-weight:600;
+      font-size:14.5px;
+      white-space:nowrap;
+      color:var(--accent);
+    }
+
+    /* FOOTER */
+    .find-us{
+      margin-top:44px;
+      padding:22px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+    }
+    .find-us h3{
+      font-family:'Fraunces',serif;
+      font-size:19px;
+      margin:0 0 8px;
+      font-weight:600;
+    }
+    .find-us p{margin:4px 0; font-size:14px; color:var(--muted);}
+    .find-us a{color:var(--ink); text-decoration:none; font-weight:500;}
+
+    .cta-band{
+      margin-top:24px;
+      text-align:center;
+      padding:30px 20px;
+      border-radius:var(--radius);
+      background:var(--ink);
+      color:var(--bg);
+    }
+    .cta-band p{margin:0 0 16px; font-size:14.5px; opacity:.85;}
+    .cta-band a{
+      display:inline-block;
+      background:var(--accent);
+      color:#fff;
+      padding:12px 22px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:30px;
+      font-size:11.5px;
+      color:var(--muted);
+    }
+    .footer a{color:var(--muted);}
+
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto;}
+    }
+  </style>
+</head>
+<body>
+
+<img class="hero-media" src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=60" alt="The Amber Room interior">
+
+<div class="wrap">
+
+  <div class="hero-body">
+    <span class="tag-pill">Bar · Coffee · Lounge</span>
+    <h1>The Amber Room</h1>
+    <p class="tagline">Good drinks. Good people. Good nights.</p>
+
+    <a class="review-btn" href="https://g.page/r/example/review" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3L22 9.3l-5 5 1.2 7.1L12 18l-6.2 3.4L7 14.3l-5-5 7.1-1z"/></svg>
+      Leave a Google review
+    </a>
+
+    <div class="action-row">
+      <a class="action-chip" href="https://wa.me/15551234567" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </a>
+      <a class="action-chip" href="https://instagram.com/theamberroom" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        Instagram
+      </a>
+      <a class="action-chip" href="https://maps.app.goo.gl/example" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Directions
+      </a>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=700&q=60" alt="Bar interior">
+    <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=700&q=60" alt="Cocktail being made">
+    <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=700&q=60" alt="Lounge seating">
+  </div>
+
+  <div class="menu-section">
+    <h2>Menu</h2>
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-panel="coffee">Coffee</button>
+      <button class="tab-btn" data-panel="cocktails">Cocktails</button>
+      <button class="tab-btn" data-panel="beer">Beer</button>
+      <button class="tab-btn" data-panel="soft">Soft Drinks</button>
+    </div>
+
+    <div class="menu-panel active" id="coffee">
+      <div class="menu-item"><div><div class="item-name">Espresso</div></div><div class="item-price">$3</div></div>
+      <div class="menu-item"><div><div class="item-name">Cappuccino</div></div><div class="item-price">$4.50</div></div>
+      <div class="menu-item"><div><div class="item-name">Latte</div></div><div class="item-price">$4.50</div></div>
+      <div class="menu-item"><div><div class="item-name">Americano</div></div><div class="item-price">$4</div></div>
+      <div class="menu-item"><div><div class="item-name">Iced Coffee</div><div class="item-note">Cold brew, milk of choice</div></div><div class="item-price">$5</div></div>
+    </div>
+
+    <div class="menu-panel" id="cocktails">
+      <div class="menu-item"><div><div class="item-name">Old Fashioned</div><div class="item-note">Bourbon, bitters, orange</div></div><div class="item-price">$12</div></div>
+      <div class="menu-item"><div><div class="item-name">Negroni</div></div><div class="item-price">$11</div></div>
+      <div class="menu-item"><div><div class="item-name">Amber Sour</div><div class="item-note">House special</div></div><div class="item-price">$13</div></div>
+      <div class="menu-item"><div><div class="item-name">Espresso Martini</div></div><div class="item-price">$12</div></div>
+    </div>
+
+    <div class="menu-panel" id="beer">
+      <div class="menu-item"><div><div class="item-name">Peroni</div></div><div class="item-price">$6</div></div>
+      <div class="menu-item"><div><div class="item-name">Heineken</div></div><div class="item-price">$6</div></div>
+      <div class="menu-item"><div><div class="item-name">Local IPA</div><div class="item-note">Rotating tap</div></div><div class="item-price">$7</div></div>
+    </div>
+
+    <div class="menu-panel" id="soft">
+      <div class="menu-item"><div><div class="item-name">Sparkling Water</div></div><div class="item-price">$3</div></div>
+      <div class="menu-item"><div><div class="item-name">Fresh Juice</div></div><div class="item-price">$5</div></div>
+      <div class="menu-item"><div><div class="item-name">Coca-Cola</div></div><div class="item-price">$3.50</div></div>
+    </div>
+  </div>
+
+  <div class="find-us">
+    <h3>Find us here</h3>
+    <p><a href="https://maps.app.goo.gl/example" target="_blank" rel="noopener">123 Main Street, Your City</a></p>
+    <p>Open every day, 6 PM – 2 AM</p>
+  </div>
+
+  <div class="cta-band">
+    <p>Enjoyed your visit? Leave us a review and help us grow.</p>
+    <a href="https://g.page/r/example/review" target="_blank" rel="noopener">Leave a Google review</a>
+  </div>
+
+  <div class="footer">
+    THE AMBER ROOM · <a href="#" target="_blank" rel="noopener">Powered by DuoTap</a>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('tabs').addEventListener('click', function(e){
+    var btn = e.target.closest('.tab-btn');
+    if(!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.menu-panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.panel).classList.add('active');
+  });
+</script>
+
+</body>
+</html>

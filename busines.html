@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Jordan Cole — Cole Design Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* ---- Reskin per customer by editing these ---- */
+      --bg:#f4f1ea;
+      --card:#ffffff;
+      --ink:#1c1b19;
+      --muted:#6b6862;
+      --accent:#5c7a5e;      /* primary action color */
+      --accent-ink:#ffffff;  /* text on accent */
+      --line:#e7e2d8;
+      --radius:16px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:'Inter',sans-serif;
+      display:flex;
+      justify-content:center;
+      min-height:100vh;
+      padding:28px 16px 60px;
+    }
+    .card{
+      width:100%;
+      max-width:400px;
+    }
+    .profile{
+      text-align:center;
+      padding:8px 0 28px;
+    }
+    .avatar{
+      width:96px; height:96px;
+      border-radius:50%;
+      margin:0 auto 18px;
+      background:var(--line);
+      display:block;
+      object-fit:cover;
+      border:1px solid var(--line);
+    }
+    h1{
+      font-family:'Fraunces',serif;
+      font-weight:600;
+      font-size:26px;
+      margin:0;
+      line-height:1.15;
+    }
+    .role{
+      color:var(--muted);
+      font-size:14.5px;
+      margin-top:6px;
+    }
+
+    .save-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:100%;
+      background:var(--accent);
+      color:var(--accent-ink);
+      border:none;
+      padding:15px 20px;
+      border-radius:12px;
+      font-size:15.5px;
+      font-weight:600;
+      font-family:'Inter',sans-serif;
+      cursor:pointer;
+      margin-top:22px;
+      transition:transform .12s, opacity .12s;
+    }
+    .save-btn:hover{opacity:.92;}
+    .save-btn:active{transform:scale(0.98);}
+
+    .quick-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .quick-btn{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      padding:14px 6px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--ink);
+      font-size:12.5px;
+      font-weight:500;
+      transition:border-color .12s;
+    }
+    .quick-btn:hover{border-color:var(--accent);}
+    .quick-btn svg{stroke:var(--accent);}
+
+    .links{
+      margin-top:28px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .link-row{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:15px 16px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--ink);
+      transition:border-color .12s, transform .12s;
+    }
+    .link-row:hover{border-color:var(--accent); transform:translateY(-1px);}
+    .link-icon{
+      width:36px; height:36px;
+      border-radius:9px;
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .link-icon svg{stroke:var(--accent);}
+    .link-text{flex-grow:1;}
+    .link-title{font-size:14.5px; font-weight:600;}
+    .link-sub{font-size:12.5px; color:var(--muted); margin-top:1px;}
+    .link-arrow{color:var(--muted); flex-shrink:0;}
+
+    .about{
+      margin-top:28px;
+      padding:18px 18px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:12px;
+      font-size:13.5px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:34px;
+      font-size:11.5px;
+      color:var(--muted);
+    }
+    .footer a{color:var(--muted); text-decoration:underline;}
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="profile">
+    <div class="avatar" role="img" aria-label="Jordan Cole"></div>
+    <h1>Jordan Cole</h1>
+    <div class="role">Cole Design Studio · Interior Design</div>
+  </div>
+
+  <button class="save-btn" onclick="saveContact()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    Save contact
+  </button>
+
+  <div class="quick-row">
+    <a class="quick-btn" href="tel:+15551234567">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call
+    </a>
+    <a class="quick-btn" href="sms:+15551234567">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Text
+    </a>
+    <a class="quick-btn" href="mailto:jordan@coledesignstudio.com">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+      Email
+    </a>
+  </div>
+
+  <div class="links">
+    <a class="link-row" href="https://coledesignstudio.com" target="_blank" rel="noopener">
+      <div class="link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="link-text">
+        <div class="link-title">Portfolio</div>
+        <div class="link-sub">coledesignstudio.com</div>
+      </div>
+      <svg class="link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="link-row" href="https://instagram.com/coledesignstudio" target="_blank" rel="noopener">
+      <div class="link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
+      <div class="link-text">
+        <div class="link-title">Instagram</div>
+        <div class="link-sub">@coledesignstudio</div>
+      </div>
+      <svg class="link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="link-row" href="https://g.page/r/example/review" target="_blank" rel="noopener">
+      <div class="link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l2.9 6.3L22 9.3l-5 5 1.2 7.1L12 18l-6.2 3.4L7 14.3l-5-5 7.1-1z"/></svg></div>
+      <div class="link-text">
+        <div class="link-title">Leave a review</div>
+        <div class="link-sub">Google reviews</div>
+      </div>
+      <svg class="link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="link-row" href="https://wa.me/15551234567" target="_blank" rel="noopener">
+      <div class="link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+      <div class="link-text">
+        <div class="link-title">WhatsApp</div>
+        <div class="link-sub">Message directly</div>
+      </div>
+      <svg class="link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </div>
+
+  <div class="about">
+    Interior design studio based in Portland, OR. Residential and small commercial projects, from single rooms to full renovations.
+  </div>
+
+  <div class="footer">
+    Made with a tap · <a href="#" target="_blank" rel="noopener">Powered by DuoTap</a>
+  </div>
+
+</div>
+
+<script>
+  function saveContact(){
+    var vcard = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N:Cole;Jordan;;;",
+      "FN:Jordan Cole",
+      "ORG:Cole Design Studio",
+      "TITLE:Interior Designer",
+      "TEL;TYPE=CELL:+15551234567",
+      "EMAIL:jordan@coledesignstudio.com",
+      "URL:https://coledesignstudio.com",
+      "END:VCARD"
+    ].join("\n");
+
+    var blob = new Blob([vcard], { type: "text/vcard" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "jordan-cole.vcf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>
