@@ -361,9 +361,11 @@ nav {
 }
 
 .section-head h2 {
-  font-size: clamp(30px, 4vw, 44px);
-  color: var(--paper);
-  max-width: 14ch;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
 }
 
 .section-head p {
@@ -372,6 +374,10 @@ nav {
   font-size: 16px;
   margin: 0;
 }
+.blue-text {
+  color: #2aa9c9;
+}
+
 
 /* HOW IT WORKS */
 .steps {
@@ -832,4 +838,11 @@ footer a:hover {
     padding: 20px;
     min-height: 200px;
   }
+}
+#examples {
+  scroll-margin-top: 110px;
+}
+
+#pricing{
+  scroll-margin-top: 110px;
 }
