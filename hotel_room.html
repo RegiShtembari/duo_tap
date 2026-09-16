@@ -289,6 +289,35 @@
       display:flex;align-items:center;justify-content:center;gap:8px;
     }
     .send-order-btn:active{opacity:0.85;}
+
+    .action.issue{
+      background:#E7E1D8;
+      color:var(--ink);
+      border:1px solid var(--line);
+    }
+
+    .action.issue .sub{
+      color:#5f665f;
+      opacity:1;
+    }
+
+
+    .action.review{
+      background:#F3D7B6;
+      color:#5B3A29;
+      border:1px solid #E7C79F;
+    }
+
+    .action.review .sub{
+      color:#7A5A45;
+      opacity:1;
+    }
+
+    .action.review:hover{
+      background:#F7E1C8;
+      border-color:#D9B382;
+    }
+
   </style>
 </head>
 <body>
@@ -474,6 +503,12 @@
       <span class="label">Message front desk</span>
       <span class="sub">Via WhatsApp, 24 hours</span>
     </a>
+
+    <a class="action" data-wa data-msg="Hello, I'd like to request a late checkout for Room {room}." target="_blank" rel="noopener">
+      <span class="icon">🕒</span>
+      <span class="label">Request late checkout</span>
+      <span class="sub">Subject to availability</span>
+    </a>
   </div>
 
   <div class="card">
@@ -485,6 +520,17 @@
       <li><span class="k">Front desk</span><span class="v">Open 24 hours</span></li>
       <li><span class="k">Parking</span><span class="v">Rear entrance, ask for a spot</span></li>
     </ul>
+  </div>
+
+  <div class="card">
+    <h2>Enjoying your stay?</h2>
+    <p class="note" style="margin-top:0;">We'd really appreciate your feedback.</p>
+
+    <a class="action review" href="" rel="noopener" style="margin-top:10px;">
+      <span class="icon">⭐</span>
+      <span class="label">Leave a Google review</span>
+      <span class="sub">It only takes a minute</span>
+    </a>
   </div>
 
   <div class="card">
