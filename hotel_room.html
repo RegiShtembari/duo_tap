@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Liria — Room Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Domine:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#1E2A26;
+      --stone:#EDEFE6;
+      --paper:#F8F7F3;
+      --rust:#A64B3A;
+      --brass:#B08D57;
+      --line: rgba(30,42,38,0.14);
+      --radius: 10px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:'Work Sans', sans-serif;
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+    }
+    h1,h2{font-family:'Domine', serif;margin:0;line-height:1.15;font-weight:700;}
+    a{color:inherit;}
+    .wrap{max-width:480px;margin:0 auto;padding:0 20px 40px;}
+
+    .top{
+      background:var(--ink);
+      color:var(--paper);
+      padding:28px 20px 34px;
+      text-align:center;
+    }
+    .top .hotel{font-size:0.8rem;letter-spacing:0.02em;opacity:0.7;margin-bottom:8px;}
+    .top h1{font-size:1.5rem;}
+    .top p{margin-top:8px;font-size:0.9rem;color:rgba(248,247,243,0.75);}
+    .room-badge{
+      display:inline-block;
+      margin-top:14px;
+      background:rgba(248,247,243,0.12);
+      border:1px solid rgba(248,247,243,0.3);
+      padding:6px 16px;
+      border-radius:20px;
+      font-size:0.85rem;
+    }
+
+    .card{
+      background:var(--stone);
+      border-radius:var(--radius);
+      padding:20px;
+      margin-top:18px;
+    }
+    .card h2{font-size:1.02rem;margin-bottom:12px;}
+
+    .wifi-row{
+      display:flex;justify-content:space-between;align-items:center;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:12px 14px;
+      margin-bottom:10px;
+    }
+    .wifi-row div span{display:block;}
+    .wifi-row .label{font-size:0.72rem;opacity:0.6;}
+    .wifi-row .value{font-family:'Domine',serif;font-size:1.05rem;}
+    .copy-btn{
+      border:1px solid var(--ink);
+      background:transparent;
+      padding:7px 12px;
+      border-radius:6px;
+      font-family:inherit;
+      font-size:0.78rem;
+      cursor:pointer;
+    }
+    .copy-btn.copied{background:var(--ink);color:var(--paper);}
+
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;}
+    @media (max-width:360px){.actions{grid-template-columns:1fr;}}
+    .action{
+      display:flex;flex-direction:column;gap:4px;
+      background:var(--stone);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:16px 14px;
+      text-decoration:none;
+      color:var(--ink);
+    }
+    .action .icon{font-size:1.3rem;}
+    .action .label{font-size:0.88rem;font-weight:600;}
+    .action .sub{font-size:0.74rem;opacity:0.65;}
+    .action.primary{background:var(--rust);color:var(--paper);border-color:var(--rust);}
+    .action.primary .sub{color:rgba(248,247,243,0.75);}
+
+    .info-list{list-style:none;margin:0;padding:0;}
+    .info-list li{
+      display:flex;justify-content:space-between;gap:10px;
+      padding:10px 0;
+      border-top:1px solid var(--line);
+      font-size:0.9rem;
+    }
+    .info-list li:first-child{border-top:none;}
+    .info-list .k{color:#3a453f;}
+    .info-list .v{font-weight:600;text-align:right;}
+
+    .note{
+      font-size:0.82rem;
+      color:#3a453f;
+      margin-top:8px;
+    }
+
+    footer{
+      text-align:center;
+      font-size:0.78rem;
+      color:#3a453f;
+      margin-top:30px;
+    }
+    footer a{text-decoration:none;border-bottom:1px solid var(--line);}
+
+    /* Category Buttons Grid */
+    .category-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:16px;
+    }
+    .cat-btn{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:6px 14px;
+      font-family:inherit;
+      font-size:0.82rem;
+      font-weight:500;
+      color:var(--ink);
+      cursor:pointer;
+      transition:all 0.2s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .cat-btn:hover, .cat-btn.active{
+      background:var(--ink);
+      color:var(--paper);
+      border-color:var(--ink);
+    }
+    .cat-badge{
+      background:var(--rust);
+      color:var(--paper);
+      font-size:0.7rem;
+      font-weight:700;
+      padding:2px 6px;
+      border-radius:10px;
+      display:none;
+    }
+    .cat-badge.visible{
+      display:inline-block;
+    }
+
+    /* Collapsible Sections */
+    .menu-category-block{
+      border-top:1px solid var(--line);
+    }
+    .menu-category-block:first-child{
+      border-top:none;
+    }
+    .menu-category-toggle{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:none;
+      border:none;
+      padding:14px 0;
+      font-family:'Domine', serif;
+      font-size:1.05rem;
+      font-weight:700;
+      color:var(--ink);
+      cursor:pointer;
+      text-align:left;
+    }
+    .menu-category-toggle .arrow{
+      font-size:0.8rem;
+      transition:transform 0.2s ease;
+    }
+    .menu-category-block.open .menu-category-toggle .arrow{
+      transform:rotate(180deg);
+    }
+    .menu-items-container{
+      display:none;
+      padding-bottom:10px;
+    }
+    .menu-category-block.open .menu-items-container{
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Room service menu items */
+    .menu-item{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:10px 0;
+      border-top:1px dashed var(--line);
+      gap:12px;
+    }
+    .menu-item:first-child{border-top:none;}
+    .menu-info{display:flex;flex-direction:column;}
+    .menu-name{font-size:0.92rem;font-weight:500;}
+    .menu-price{font-size:0.8rem;color:#3a453f;margin-top:2px;}
+    .qty-control{
+      display:flex;align-items:center;gap:10px;
+      flex-shrink:0;
+    }
+    .qty-btn{
+      width:30px;height:30px;
+      border:1px solid var(--ink);
+      background:var(--paper);
+      border-radius:50%;
+      font-size:1rem;
+      line-height:1;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      color:var(--ink);
+    }
+    .qty-btn:active{background:var(--ink);color:var(--paper);}
+    .qty-value{min-width:16px;text-align:center;font-size:0.92rem;font-weight:600;}
+
+    .menu-total{
+      display:flex;justify-content:space-between;
+      font-size:1.05rem;font-weight:700;
+      padding-top:16px;margin-top:12px;
+      border-top:2px solid var(--brass);
+    }
+
+    /* Payment Method Toggle */
+    .payment-section{
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+    .payment-title{
+      font-size:0.85rem;
+      font-weight:600;
+      margin-bottom:8px;
+      color:var(--ink);
+    }
+    .payment-options{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .pay-option{
+      display:none;
+    }
+    .pay-label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      padding:10px;
+      border-radius:8px;
+      font-size:0.85rem;
+      font-weight:500;
+      cursor:pointer;
+      transition:all 0.2s ease;
+    }
+    .pay-option:checked + .pay-label{
+      background:var(--ink);
+      color:var(--paper);
+      border-color:var(--ink);
+    }
+
+    .send-order-btn{
+      width:100%;
+      margin-top:16px;
+      background:var(--rust);
+      color:var(--paper);
+      border:none;
+      padding:13px 14px;
+      border-radius:var(--radius);
+      font-family:inherit;
+      font-size:0.92rem;
+      font-weight:600;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .send-order-btn:active{opacity:0.85;}
+  </style>
+</head>
+<body>
+
+<div class="top">
+  <div class="hotel">Hotel Liria — Tirana</div>
+  <h1>Welcome. Make yourself at home.</h1>
+  <p>Everything you need for your stay, on this page.</p>
+  <div class="room-badge" id="roomBadge">Room —</div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>Wifi</h2>
+    <div class="wifi-row">
+      <div><span class="label">Network</span><span class="value">HotelLiria_Guest</span></div>
+      <button class="copy-btn" onclick="copyText('HotelLiria_Guest', this)">Copy</button>
+    </div>
+    <div class="wifi-row">
+      <div><span class="label">Password</span><span class="value">liria2026</span></div>
+      <button class="copy-btn" onclick="copyText('liria2026', this)">Copy</button>
+    </div>
+    <p class="note">Trouble connecting? Message the front desk below and we'll reset it from our side.</p>
+  </div>
+
+  <div class="card" id="menuCard">
+    <h2>Order food &amp; drinks</h2>
+    <!--    <p class="note" style="margin:-6px 0 14px;">Tap a category to view items:</p>-->
+
+    <!--    &lt;!&ndash; Quick Navigation Category Buttons with Badges &ndash;&gt;-->
+    <!--    <div class="category-buttons">-->
+    <!--      <button class="cat-btn" id="btn-salads" onclick="toggleCategory('salads')"><span>🥗 Salads</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-pasta" onclick="toggleCategory('pasta')"><span>🍝 Pasta</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-pizza" onclick="toggleCategory('pizza')"><span>🍕 Pizza</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-burgers" onclick="toggleCategory('burgers')"><span>🍔 Burgers</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-snacks" onclick="toggleCategory('snacks')"><span>🍟 Snacks</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-drinks" onclick="toggleCategory('drinks')"><span>🥤 Drinks</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-coffee" onclick="toggleCategory('coffee')"><span>☕ Coffee</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-cocktails" onclick="toggleCategory('cocktails')"><span>🍹 Cocktails</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-beer" onclick="toggleCategory('beer')"><span>🍺 Beer</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-wine" onclick="toggleCategory('wine')"><span>🍷 Wine</span><span class="cat-badge">0</span></button>-->
+    <!--      <button class="cat-btn" id="btn-desserts" onclick="toggleCategory('desserts')"><span>🍰 Desserts</span><span class="cat-badge">0</span></button>-->
+    <!--    </div>-->
+
+    <div class="menu-list" id="menuList">
+
+      <div class="menu-category-block" id="cat-salads" data-cat="salads">
+        <button class="menu-category-toggle" onclick="toggleCategory('salads')">
+          <span>🥗 Salads <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Caesar Salad" data-price="6"><div class="menu-info"><span class="menu-name">Caesar Salad</span><span class="menu-price">€6</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-pasta" data-cat="pasta">
+        <button class="menu-category-toggle" onclick="toggleCategory('pasta')">
+          <span>🍝 Pasta <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Carbonara" data-price="8"><div class="menu-info"><span class="menu-name">Carbonara</span><span class="menu-price">€8</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-pizza" data-cat="pizza">
+        <button class="menu-category-toggle" onclick="toggleCategory('pizza')">
+          <span>🍕 Pizza <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Margherita Pizza" data-price="7"><div class="menu-info"><span class="menu-name">Margherita Pizza</span><span class="menu-price">€7</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-burgers" data-cat="burgers">
+        <button class="menu-category-toggle" onclick="toggleCategory('burgers')">
+          <span>🍔 Burgers <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Classic Burger" data-price="8"><div class="menu-info"><span class="menu-name">Classic Burger</span><span class="menu-price">€8</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-snacks" data-cat="snacks">
+        <button class="menu-category-toggle" onclick="toggleCategory('snacks')">
+          <span>🍟 Snacks <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="French Fries" data-price="3"><div class="menu-info"><span class="menu-name">French Fries</span><span class="menu-price">€3</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-drinks" data-cat="drinks">
+        <button class="menu-category-toggle" onclick="toggleCategory('drinks')">
+          <span>🥤 Soft Drinks <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Coca Cola" data-price="2"><div class="menu-info"><span class="menu-name">Coca Cola</span><span class="menu-price">€2</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-coffee" data-cat="coffee">
+        <button class="menu-category-toggle" onclick="toggleCategory('coffee')">
+          <span>☕ Coffee <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Espresso" data-price="2"><div class="menu-info"><span class="menu-name">Espresso</span><span class="menu-price">€2</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-cocktails" data-cat="cocktails">
+        <button class="menu-category-toggle" onclick="toggleCategory('cocktails')">
+          <span>🍹 Cocktails <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Mojito" data-price="6"><div class="menu-info"><span class="menu-name">Mojito</span><span class="menu-price">€6</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-beer" data-cat="beer">
+        <button class="menu-category-toggle" onclick="toggleCategory('beer')">
+          <span>🍺 Beer <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Heineken" data-price="3"><div class="menu-info"><span class="menu-name">Heineken</span><span class="menu-price">€3</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-wine" data-cat="wine">
+        <button class="menu-category-toggle" onclick="toggleCategory('wine')">
+          <span>🍷 Wine <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="House Wine" data-price="4"><div class="menu-info"><span class="menu-name">House Wine</span><span class="menu-price">€4</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="menu-category-block" id="cat-desserts" data-cat="desserts">
+        <button class="menu-category-toggle" onclick="toggleCategory('desserts')">
+          <span>🍰 Desserts <span class="cat-badge">0</span></span><span class="arrow">▼</span>
+        </button>
+        <div class="menu-items-container">
+          <div class="menu-item" data-name="Chocolate Cake" data-price="4"><div class="menu-info"><span class="menu-name">Chocolate Cake</span><span class="menu-price">€4</span></div><div class="qty-control"><button type="button" class="qty-btn" data-action="minus">−</button><span class="qty-value">0</span><button type="button" class="qty-btn" data-action="plus">+</button></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="menu-total"><span>Total</span><span id="menuTotal">€0</span></div>
+
+    <!-- Payment Selection -->
+    <div class="payment-section">
+      <div class="payment-title">Payment Method:</div>
+      <div class="payment-options">
+        <input type="radio" name="payment" id="payCash" value="Cash" class="pay-option" checked>
+        <label for="payCash" class="pay-label">💵 Cash</label>
+
+        <input type="radio" name="payment" id="payCard" value="Card" class="pay-option">
+        <label for="payCard" class="pay-label">💳 Card</label>
+      </div>
+    </div>
+
+    <button type="button" class="send-order-btn" id="sendOrderBtn">
+      <span>🛎️</span> Send order via WhatsApp
+    </button>
+  </div>
+  <h2 style="margin-top: 10%">Facilities</h2>
+
+  <div class="actions">
+
+    <a class="action" data-wa data-msg="Hello, could I request housekeeping for Room {room}?" target="_blank" rel="noopener">
+      <span class="icon">🧹</span>
+      <span class="label">Request housekeeping</span>
+      <span class="sub">Any time, 8am–8pm</span>
+    </a>
+    <a class="action" data-wa data-msg="Hello, could I get extra towels/pillows for Room {room}?" target="_blank" rel="noopener">
+      <span class="icon">🛏️</span>
+      <span class="label">Extra towels / pillows</span>
+      <span class="sub">Delivered to your door</span>
+    </a>
+    <a class="action" data-wa data-msg="Hello, I'd like to reach the front desk from Room {room}." target="_blank" rel="noopener">
+      <span class="icon">📞</span>
+      <span class="label">Message front desk</span>
+      <span class="sub">Via WhatsApp, 24 hours</span>
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>Good to know</h2>
+    <ul class="info-list">
+      <li><span class="k">Checkout time</span><span class="v">11:00 AM</span></li>
+      <li><span class="k">Late checkout</span><span class="v">On request, front desk</span></li>
+      <li><span class="k">Breakfast</span><span class="v">7:00–10:30, ground floor</span></li>
+      <li><span class="k">Front desk</span><span class="v">Open 24 hours</span></li>
+      <li><span class="k">Parking</span><span class="v">Rear entrance, ask for a spot</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Something not right?</h2>
+    <p class="note" style="margin-top:0;">AC, plumbing, noise, anything at all — tell us and we'll sort it, no need to come down to the desk.</p>
+    <a class="action primary" style="margin-top:10px;" data-wa data-msg="Hello, I'd like to report an issue in Room {room}: " target="_blank" rel="noopener">
+      <span class="icon">⚠️</span>
+      <span class="label">Report an issue</span>
+      <span class="sub">We'll respond right away</span>
+    </a>
+  </div>
+
+  <footer>
+    Hotel Liria · Tirana · <a href="tel:+355695670905">+355 69 758 5460</a>
+  </footer>
+
+</div>
+
+<script>
+  const WHATSAPP_NUMBER = "355697585460";
+
+  const params = new URLSearchParams(window.location.search);
+  const room = params.get("room") || "—";
+
+  document.getElementById("roomBadge").textContent = "Room " + room;
+
+  document.querySelectorAll("[data-wa]").forEach(function(link){
+    const msg = link.getAttribute("data-msg").replace("{room}", room);
+    link.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  });
+
+  // Strict accordion: open selected category & close all others
+  function toggleCategory(catId) {
+    const targetBlock = document.getElementById("cat-" + catId);
+    const isOpen = targetBlock.classList.contains("open");
+
+    // Close all category blocks
+    document.querySelectorAll(".menu-category-block").forEach(function(block){
+      block.classList.remove("open");
+    });
+
+    // If it wasn't open, open it now
+    if (!isOpen) {
+      targetBlock.classList.add("open");
+    }
+  }
+
+  // Room service menu recalculation & badge counters
+  const menuItems = document.querySelectorAll("#menuList .menu-item");
+  const menuTotalEl = document.getElementById("menuTotal");
+
+  function updateTotalsAndBadges(){
+    let total = 0;
+
+    // Calculate total bill
+    menuItems.forEach(function(item){
+      const qty = parseInt(item.querySelector(".qty-value").textContent, 10);
+      const price = parseFloat(item.dataset.price);
+      total += qty * price;
+    });
+    menuTotalEl.textContent = "€" + total;
+
+    // Update badges per category
+    document.querySelectorAll(".menu-category-block").forEach(function(block){
+      const catId = block.dataset.cat;
+      let catQtyTotal = 0;
+
+      block.querySelectorAll(".qty-value").forEach(function(qtyEl){
+        catQtyTotal += parseInt(qtyEl.textContent, 10);
+      });
+
+      // Update block title badge
+      const headerBadge = block.querySelector(".cat-badge");
+      if (headerBadge) {
+        headerBadge.textContent = catQtyTotal;
+        headerBadge.classList.toggle("visible", catQtyTotal > 0);
+      }
+
+      // Update quick navigation button badge
+      const navBtn = document.getElementById("btn-" + catId);
+      if (navBtn) {
+        const btnBadge = navBtn.querySelector(".cat-badge");
+        if (btnBadge) {
+          btnBadge.textContent = catQtyTotal;
+          btnBadge.classList.toggle("visible", catQtyTotal > 0);
+        }
+      }
+    });
+  }
+
+  menuItems.forEach(function(item){
+    const qtyEl = item.querySelector(".qty-value");
+    item.querySelectorAll(".qty-btn").forEach(function(btn){
+      btn.addEventListener("click", function(e){
+        e.stopPropagation();
+        let qty = parseInt(qtyEl.textContent, 10);
+        if (btn.dataset.action === "plus") qty += 1;
+        if (btn.dataset.action === "minus") qty = Math.max(0, qty - 1);
+        qtyEl.textContent = qty;
+        updateTotalsAndBadges();
+      });
+    });
+  });
+
+  // Build order message
+  document.getElementById("sendOrderBtn").addEventListener("click", function(){
+    const lines = [];
+    let total = 0;
+    menuItems.forEach(function(item){
+      const qty = parseInt(item.querySelector(".qty-value").textContent, 10);
+      if (qty > 0){
+        const price = parseFloat(item.dataset.price);
+        const itemTotal = qty * price;
+        total += itemTotal;
+        lines.push("• " + qty + "x " + item.dataset.name + " (€" + itemTotal + ")");
+      }
+    });
+
+    if (lines.length === 0){
+      alert("Add at least one item before sending your order.");
+      return;
+    }
+
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+    const message =
+      "Room service order — Room " + room + ":\n\n" +
+      lines.join("\n") +
+      "\n\nTotal: €" + total +
+      "\nPayment Method: " + paymentMethod;
+
+    window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank");
+  });
+
+  function copyText(text, btn){
+    navigator.clipboard.writeText(text).then(function(){
+      var original = btn.textContent;
+      btn.textContent = "Copied";
+      btn.classList.add("copied");
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.classList.remove("copied");
+      }, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DuoTap Restaurant</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: #f5f2eb;
+      --surface: #ffffff;
+      --surface-soft: #ece8df;
+      --text: #1d211f;
+      --muted: #777a75;
+      --green: #415b4c;
+      --green-light: #e2e9e3;
+      --border: #e5e1d9;
+      --radius: 18px;
+      --radius-large: 26px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+
+    .header {
+      padding: 22px 20px 10px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+
+      font-family: "Manrope", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 11px;
+
+      background: var(--green);
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    /* MENU INTRO */
+
+    .menu-intro {
+      padding: 18px 20px 18px;
+    }
+
+    .menu-intro span {
+      display: block;
+
+      color: var(--green);
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+
+      margin-bottom: 6px;
+    }
+
+    .menu-intro h1 {
+      font-family: "Manrope", sans-serif;
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .menu-intro p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* MENU */
+
+    .menu-section {
+      padding: 0 20px 45px;
+    }
+
+    .categories {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .category {
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      overflow: hidden;
+    }
+
+    .category-button {
+      width: 100%;
+
+      border: none;
+      background: transparent;
+
+      padding: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      text-align: left;
+    }
+
+    .category-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .category-icon {
+      width: 44px;
+      height: 44px;
+
+      border-radius: 13px;
+
+      background: var(--green-light);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 19px;
+    }
+
+    .category-text strong {
+      display: block;
+
+      font-family: "Manrope", sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .category-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .arrow {
+      width: 32px;
+      height: 32px;
+
+      border-radius: 50%;
+
+      background: var(--surface-soft);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 15px;
+
+      transition: .25s;
+    }
+
+    .category.active .arrow {
+      transform: rotate(180deg);
+    }
+
+    .items {
+      display: none;
+      padding: 0 17px;
+    }
+
+    .category.active .items {
+      display: block;
+    }
+
+    .menu-item {
+      min-height: 62px;
+
+      padding: 15px 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      border-top: 1px solid var(--border);
+    }
+
+    .menu-item > div {
+      flex: 1;
+    }
+
+    .menu-item-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .menu-item small {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .price {
+      color: var(--green);
+
+      font-size: 14px;
+      font-weight: 700;
+
+      white-space: nowrap;
+    }
+
+    /* REVIEW */
+
+    .review-section {
+      padding: 0 20px 45px;
+    }
+
+    .section-label {
+      color: var(--green);
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+
+      margin-bottom: 8px;
+    }
+
+    .section-heading {
+      font-family: "Manrope", sans-serif;
+      font-size: 27px;
+      letter-spacing: -1px;
+
+      margin-bottom: 18px;
+    }
+
+    .review-card {
+      position: relative;
+      overflow: hidden;
+
+      background: var(--green);
+      color: white;
+
+      border-radius: var(--radius-large);
+
+      padding: 30px 22px;
+    }
+
+    .review-decoration {
+      position: absolute;
+
+      width: 160px;
+      height: 160px;
+
+      border-radius: 50%;
+
+      right: -65px;
+      top: -75px;
+
+      background: rgba(255,255,255,.07);
+    }
+
+    .review-stars {
+      position: relative;
+      z-index: 1;
+
+      font-size: 18px;
+      letter-spacing: 3px;
+
+      margin-bottom: 15px;
+    }
+
+    .review-card h2 {
+      position: relative;
+      z-index: 1;
+
+      font-family: "Manrope", sans-serif;
+      font-size: 26px;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+
+    .review-card p {
+      position: relative;
+      z-index: 1;
+
+      margin-top: 9px;
+      margin-bottom: 21px;
+
+      max-width: 430px;
+
+      color: rgba(255,255,255,.75);
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .review-btn {
+      position: relative;
+      z-index: 1;
+
+      width: 100%;
+      height: 54px;
+
+      border-radius: 14px;
+
+      background: white;
+      color: #222;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 9px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .google-icon {
+      width: 28px;
+      height: 28px;
+
+      border-radius: 9px;
+
+      background: #f3f3f3;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    /* SOCIALS */
+
+    .social-section {
+      padding: 0 20px 45px;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 10px;
+    }
+
+    .social-card {
+      min-height: 105px;
+
+      padding: 16px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      background: var(--surface);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .social-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+
+      border-radius: 11px;
+
+      background: var(--green-light);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .social-arrow {
+      color: #aaa9a4;
+    }
+
+    .social-card strong {
+      font-family: "Manrope", sans-serif;
+      font-size: 13px;
+    }
+
+    .social-card span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 0 20px 30px;
+
+      text-align: center;
+
+      color: #9a9891;
+
+      font-size: 11px;
+    }
+
+    footer strong {
+      color: var(--green);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 500px) {
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .header,
+      .menu-intro,
+      .menu-section,
+      .review-section,
+      .social-section {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="brand">
+
+      <div class="logo-icon">
+        D
+      </div>
+
+      DuoTap Restaurant
+
+    </div>
+
+  </header>
+
+
+  <!-- MENU INTRO -->
+
+  <section class="menu-intro">
+
+    <span>MENU</span>
+
+    <h1>
+      What would you like?
+    </h1>
+
+    <p>
+      Tap a category to explore the menu.
+    </p>
+
+  </section>
+
+
+  <!-- MENU -->
+
+  <section class="menu-section">
+
+    <div class="categories">
+
+
+      <!-- STARTERS -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🥖
+            </div>
+
+            <div class="category-text">
+              <strong>Starters</strong>
+              <span>Perfect to begin</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Bruschetta
+              </div>
+
+              <small>
+                Tomato, basil, garlic & olive oil
+              </small>
+            </div>
+
+            <span class="price">
+                            450 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Garlic Bread
+              </div>
+
+              <small>
+                Toasted bread, garlic butter & herbs
+              </small>
+            </div>
+
+            <span class="price">
+                            350 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Mozzarella Sticks
+              </div>
+
+              <small>
+                Crispy mozzarella with tomato dip
+              </small>
+            </div>
+
+            <span class="price">
+                            550 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Mixed Appetizer
+              </div>
+
+              <small>
+                Cheese, cured meats, olives & vegetables
+              </small>
+            </div>
+
+            <span class="price">
+                            850 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SALADS -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🥗
+            </div>
+
+            <div class="category-text">
+              <strong>Salads</strong>
+              <span>Fresh & light</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Caesar Salad
+              </div>
+
+              <small>
+                Chicken, lettuce, parmesan, croutons & Caesar dressing
+              </small>
+            </div>
+
+            <span class="price">
+                            700 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Greek Salad
+              </div>
+
+              <small>
+                Tomato, cucumber, onion, olives & feta
+              </small>
+            </div>
+
+            <span class="price">
+                            600 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Avocado Salad
+              </div>
+
+              <small>
+                Avocado, mixed greens, cherry tomato & seeds
+              </small>
+            </div>
+
+            <span class="price">
+                            750 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PASTA -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🍝
+            </div>
+
+            <div class="category-text">
+              <strong>Pasta</strong>
+              <span>Italian favourites</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Spaghetti Carbonara
+              </div>
+
+              <small>
+                Pancetta, egg, parmesan & black pepper
+              </small>
+            </div>
+
+            <span class="price">
+                            850 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Penne Arrabbiata
+              </div>
+
+              <small>
+                Tomato sauce, garlic, chilli & parsley
+              </small>
+            </div>
+
+            <span class="price">
+                            700 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Tagliatelle Bolognese
+              </div>
+
+              <small>
+                Slow-cooked beef ragù & parmesan
+              </small>
+            </div>
+
+            <span class="price">
+                            900 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Seafood Linguine
+              </div>
+
+              <small>
+                Shrimp, mussels, calamari & tomato sauce
+              </small>
+            </div>
+
+            <span class="price">
+                            1,150 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PIZZA -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🍕
+            </div>
+
+            <div class="category-text">
+              <strong>Pizza</strong>
+              <span>Fresh from the oven</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Margherita
+              </div>
+
+              <small>
+                Tomato, mozzarella & basil
+              </small>
+            </div>
+
+            <span class="price">
+                            650 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Prosciutto
+              </div>
+
+              <small>
+                Tomato, mozzarella & prosciutto
+              </small>
+            </div>
+
+            <span class="price">
+                            800 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Diavola
+              </div>
+
+              <small>
+                Tomato, mozzarella & spicy salami
+              </small>
+            </div>
+
+            <span class="price">
+                            850 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Quattro Formaggi
+              </div>
+
+              <small>
+                Mozzarella, gorgonzola, parmesan & fontina
+              </small>
+            </div>
+
+            <span class="price">
+                            900 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                DuoTap Special
+              </div>
+
+              <small>
+                Prosciutto, mushrooms, mozzarella & cherry tomatoes
+              </small>
+            </div>
+
+            <span class="price">
+                            950 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- MAIN COURSES -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🥩
+            </div>
+
+            <div class="category-text">
+              <strong>Main Courses</strong>
+              <span>From the kitchen</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Grilled Chicken
+              </div>
+
+              <small>
+                Chicken breast, roasted potatoes & vegetables
+              </small>
+            </div>
+
+            <span class="price">
+                            950 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Beef Steak
+              </div>
+
+              <small>
+                Grilled beef steak, potatoes & pepper sauce
+              </small>
+            </div>
+
+            <span class="price">
+                            1,650 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Grilled Salmon
+              </div>
+
+              <small>
+                Salmon fillet, seasonal vegetables & lemon sauce
+              </small>
+            </div>
+
+            <span class="price">
+                            1,450 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Beef Burger
+              </div>
+
+              <small>
+                Beef, cheddar, lettuce, tomato, sauce & fries
+              </small>
+            </div>
+
+            <span class="price">
+                            900 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DESSERTS -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🍰
+            </div>
+
+            <div class="category-text">
+              <strong>Desserts</strong>
+              <span>Something sweet</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Tiramisu
+              </div>
+
+              <small>
+                Espresso, mascarpone & cocoa
+              </small>
+            </div>
+
+            <span class="price">
+                            500 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Cheesecake
+              </div>
+
+              <small>
+                Classic cheesecake with berry sauce
+              </small>
+            </div>
+
+            <span class="price">
+                            550 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Chocolate Fondant
+              </div>
+
+              <small>
+                Warm chocolate cake with vanilla ice cream
+              </small>
+            </div>
+
+            <span class="price">
+                            600 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DRINKS -->
+
+      <div class="category">
+
+        <button class="category-button">
+
+          <div class="category-left">
+
+            <div class="category-icon">
+              🥤
+            </div>
+
+            <div class="category-text">
+              <strong>Drinks</strong>
+              <span>Cold beverages</span>
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ↓
+          </div>
+
+        </button>
+
+
+        <div class="items">
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Water
+              </div>
+            </div>
+
+            <span class="price">
+                            120 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Sparkling Water
+              </div>
+            </div>
+
+            <span class="price">
+                            150 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Coca-Cola
+              </div>
+            </div>
+
+            <span class="price">
+                            200 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Fanta
+              </div>
+            </div>
+
+            <span class="price">
+                            200 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Sprite
+              </div>
+            </div>
+
+            <span class="price">
+                            200 ALL
+                        </span>
+
+          </div>
+
+
+          <div class="menu-item">
+
+            <div>
+              <div class="menu-item-name">
+                Fresh Orange Juice
+              </div>
+            </div>
+
+            <span class="price">
+                            350 ALL
+                        </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- GOOGLE REVIEW -->
+
+  <section class="review-section">
+
+    <div class="section-label">
+      GOOGLE REVIEW
+    </div>
+
+    <h2 class="section-heading">
+      Enjoyed your visit?
+    </h2>
+
+
+    <div class="review-card">
+
+      <div class="review-decoration"></div>
+
+      <div class="review-stars">
+        ★★★★★
+      </div>
+
+      <h2>
+        Share your experience.
+      </h2>
+
+      <p>
+        Your feedback helps us improve and helps other guests discover us.
+      </p>
+
+      <a href="" class="review-btn">
+
+        <div class="google-icon">
+          G
+        </div>
+
+        Leave a Google Review
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- SOCIALS -->
+
+  <section class="social-section">
+
+    <div class="section-label">
+      SOCIALS
+    </div>
+
+    <h2 class="section-heading">
+      Stay connected
+    </h2>
+
+
+    <div class="social-grid">
+
+      <!-- INSTAGRAM -->
+
+      <a href="https://www.instagram.com/duotap.al/" class="social-card">
+
+        <div class="social-top">
+
+          <div class="social-icon">
+            <i class="bi bi-instagram"></i>
+          </div>
+
+          <div class="social-arrow">
+            ↗
+          </div>
+
+        </div>
+
+        <div>
+          <strong>Instagram</strong>
+          <span>Follow us</span>
+        </div>
+
+      </a>
+
+
+      <!-- tiktok -->
+
+      <a href="https://www.tiktok.com/@duotap.al" class="social-card">
+
+        <div class="social-top">
+
+          <div class="social-icon">
+            <i class="bi bi-tiktok"></i>
+          </div>
+
+          <div class="social-arrow">
+            ↗
+          </div>
+
+        </div>
+
+        <div>
+          <strong>TikTok</strong>
+          <span>See our page</span>
+        </div>
+
+      </a>
+
+
+      <!-- WHATSAPP -->
+
+      <a href="https://wa.me/355695670905" class="social-card">
+
+        <div class="social-top">
+
+          <div class="social-icon">
+            <i class="bi bi-whatsapp"></i>
+          </div>
+
+          <div class="social-arrow">
+            ↗
+          </div>
+
+        </div>
+
+        <div>
+          <strong>WhatsApp</strong>
+          <span>Contact us</span>
+        </div>
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    Powered by <strong>DuoTap</strong>
+  </footer>
+
+</div>
+
+
+<script>
+
+  const categories = document.querySelectorAll(".category");
+
+  categories.forEach(category => {
+
+    const button = category.querySelector(".category-button");
+
+    button.addEventListener("click", () => {
+
+      const isOpen =
+        category.classList.contains("active");
+
+      categories.forEach(item => {
+        item.classList.remove("active");
+      });
+
+      if (!isOpen) {
+        category.classList.add("active");
+      }
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>
