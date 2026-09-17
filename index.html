@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="intro-active">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +27,15 @@
     html.intro-active,
     body.intro-active {
       overflow: hidden;
+      height: 100%;
+      overscroll-behavior: none;
+    }
+
+    body.intro-active > header,
+    body.intro-active > main,
+    body.intro-active > footer {
+      visibility: hidden;
+      pointer-events: none;
     }
 
     #duotapIntro {
@@ -37,8 +46,13 @@
       align-items: center;
       justify-content: center;
       width: 100%;
+      height: 100vh;
+      height: 100svh;
       height: 100dvh;
       min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      overflow: hidden;
       background: #111318;
       opacity: 1;
       visibility: visible;
@@ -320,6 +334,20 @@
       }
     }
 
+
+
+    @supports (-webkit-touch-callout: none) {
+      html.intro-active,
+      body.intro-active {
+        height: -webkit-fill-available;
+      }
+
+      #duotapIntro {
+        min-height: -webkit-fill-available;
+        bottom: -2px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .intro-phone,
       .intro-phone-opening,
@@ -461,7 +489,7 @@
   </style>
 
 </head>
-<body>
+<body class="intro-active">
 
 <div id="duotapIntro" aria-label="DuoTap NFC intro animation">
   <div class="intro-stage">
