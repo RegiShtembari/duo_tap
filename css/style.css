@@ -1057,3 +1057,532 @@ footer a:hover {
     padding: 30px 0;
   }
 }
+
+/* ==================================================
+   HERO NFC PHONE ANIMATION
+================================================== */
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+}
+
+.nfc-demo {
+  position: relative;
+  width: 360px;
+  height: 360px;
+}
+
+
+/* =========================
+   NFC TAG
+========================= */
+
+.nfc-tag {
+  position: absolute;
+
+  width: 115px;
+  height: 115px;
+
+  left: 30px;
+  bottom: 55px;
+
+  border-radius: 18px;
+
+  background: #1d2028;
+
+  border: 2px solid #2aa9c9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.35),
+    0 0 30px rgba(42,169,201,.08);
+}
+
+
+/* NFC waves */
+
+.nfc-waves {
+  width: 55px;
+  height: 45px;
+
+  position: relative;
+}
+
+.nfc-waves span {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border: 2px solid #5fe0e0;
+
+  border-bottom: none;
+
+  border-radius: 50px 50px 0 0;
+}
+
+.nfc-waves span:nth-child(1) {
+  width: 20px;
+  height: 12px;
+}
+
+.nfc-waves span:nth-child(2) {
+  width: 35px;
+  height: 22px;
+}
+
+.nfc-waves span:nth-child(3) {
+  width: 50px;
+  height: 32px;
+}
+
+
+.nfc-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #5fe0e0;
+
+  box-shadow: 0 0 12px #5fe0e0;
+
+  margin-top: -4px;
+}
+
+
+.nfc-label {
+  margin-top: 10px;
+
+  font-size: 10px;
+
+  color: #9497a1;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+.demo-phone {
+
+  position: absolute;
+
+  width: 145px;
+  height: 285px;
+
+  right: 30px;
+  top: 25px;
+
+  background: #090b10;
+
+  border: 4px solid #292d36;
+
+  border-radius: 28px;
+
+  padding: 7px;
+
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.45),
+    0 0 35px rgba(42,169,201,.08);
+
+  z-index: 5;
+
+  animation: phoneTap 5s ease-in-out infinite;
+
+  transform-origin: bottom center;
+}
+
+
+.phone-speaker {
+
+  position: absolute;
+
+  width: 36px;
+  height: 5px;
+
+  border-radius: 10px;
+
+  background: #343842;
+
+  top: 10px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 10;
+}
+
+
+.phone-screen {
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(42,169,201,.22),
+      transparent 55%
+    ),
+    #11141b;
+}
+
+
+/* =========================
+   PHONE CONTENT
+========================= */
+
+.phone-loading,
+.phone-result {
+
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+}
+
+
+.phone-loading {
+
+  animation: hideLoading 5s infinite;
+}
+
+
+.loading-logo {
+
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #2aa9c9;
+
+  color: white;
+
+  font-weight: 800;
+
+  font-family: "Big Shoulders Display", sans-serif;
+
+  font-size: 27px;
+
+  margin-bottom: 10px;
+}
+
+
+.phone-loading span {
+
+  color: #9497a1;
+
+  font-size: 11px;
+}
+
+
+.phone-result {
+
+  padding: 22px 15px;
+
+  opacity: 0;
+
+  transform: translateY(10px);
+
+  animation: showResult 5s infinite;
+}
+
+
+.result-logo {
+
+  font-family: "Big Shoulders Display", sans-serif;
+
+  font-weight: 800;
+
+  font-size: 23px;
+
+  color: #e9eef4;
+
+  margin-bottom: 25px;
+}
+
+
+.result-title {
+
+  color: #e9eef4;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  margin-bottom: 15px;
+}
+
+
+.result-button {
+
+  width: 100%;
+
+  padding: 9px 5px;
+
+  margin: 5px 0;
+
+  background: #1d2028;
+
+  border: 1px solid rgba(95,224,224,.18);
+
+  border-radius: 8px;
+
+  text-align: center;
+
+  font-size: 9px;
+
+  color: #e9eef4;
+}
+
+
+/* =========================
+   NFC TAP PULSE
+========================= */
+
+.tap-pulse {
+
+  position: absolute;
+
+  width: 70px;
+  height: 70px;
+
+  left: 86px;
+  bottom: 80px;
+
+  border-radius: 50%;
+
+  border: 2px solid #5fe0e0;
+
+  opacity: 0;
+
+  animation: tapPulse 5s infinite;
+}
+
+
+/* =========================
+   TAP TEXT
+========================= */
+
+.tap-hint {
+
+  position: absolute;
+
+  bottom: 5px;
+
+  left: 0;
+  right: 0;
+
+  text-align: center;
+
+  color: #9497a1;
+
+  font-size: 12px;
+
+  letter-spacing: .4px;
+
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+
+/* phone starts on right,
+   moves toward NFC,
+   pauses,
+   then returns */
+
+@keyframes phoneTap {
+
+  0%,
+  10% {
+    transform:
+      translate(0, 0)
+      rotate(0deg);
+  }
+
+  30% {
+    transform:
+      translate(-55px, 55px)
+      rotate(-10deg);
+  }
+
+  42% {
+    transform:
+      translate(-60px, 60px)
+      rotate(-11deg);
+  }
+
+  52% {
+    transform:
+      translate(-55px, 55px)
+      rotate(-10deg);
+  }
+
+  70%,
+  100% {
+    transform:
+      translate(0, 0)
+      rotate(0deg);
+  }
+
+}
+
+
+/* NFC pulse happens exactly
+   when phone reaches tag */
+
+@keyframes tapPulse {
+
+  0%,
+  27% {
+    opacity: 0;
+    transform: scale(.4);
+  }
+
+  34% {
+    opacity: .9;
+  }
+
+  48% {
+    opacity: 0;
+    transform: scale(2.3);
+  }
+
+  100% {
+    opacity: 0;
+  }
+
+}
+
+
+/* Hide "Opening..." */
+
+@keyframes hideLoading {
+
+  0%,
+  40% {
+    opacity: 1;
+  }
+
+  48%,
+  100% {
+    opacity: 0;
+  }
+
+}
+
+
+/* Show actual page after NFC tap */
+
+@keyframes showResult {
+
+  0%,
+  42% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  52%,
+  88% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+}
+
+
+@keyframes hintPulse {
+
+  0%,
+  100% {
+    opacity: .45;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .hero-visual {
+    min-height: 350px;
+  }
+
+  .nfc-demo {
+    transform: scale(.86);
+  }
+
+}
+
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .demo-phone,
+  .tap-pulse,
+  .phone-loading,
+  .phone-result,
+  .tap-hint {
+    animation: none;
+  }
+
+  .phone-result {
+    opacity: 1;
+    transform: none;
+  }
+
+  .phone-loading {
+    display: none;
+  }
+
+}
