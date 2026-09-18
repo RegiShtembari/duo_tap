@@ -925,16 +925,72 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const intro = document.getElementById('duotapIntro');
-    if (!intro) return;
+    const hasHash = window.location.hash && window.location.hash !== '#';
 
-    // Match the one-time phone/NFC animation duration, then reveal the real page.
-    window.setTimeout(() => {
-      intro.classList.add('intro-finished');
+    const revealPage = () => {
+      if (intro) {
+        intro.classList.add('intro-finished');
+        window.setTimeout(() => intro.remove(), 600);
+      }
+
       document.documentElement.classList.remove('intro-active');
       document.body.classList.remove('intro-active');
+    };
 
-      window.setTimeout(() => intro.remove(), 600);
-    }, 4200);
+    const scrollToHash = (hash, smooth = true) => {
+      if (!hash || hash === '#') return;
+
+      const target = document.querySelector(hash);
+      if (!target) return;
+
+      target.scrollIntoView({
+        behavior: smooth ? 'smooth' : 'auto',
+        block: 'start'
+      });
+    };
+
+    // If Chrome restores/reloads a URL with #pricing, #examples, etc.,
+    // skip the intro and go straight to that section.
+    if (hasHash) {
+      revealPage();
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollToHash(window.location.hash, false);
+        });
+      });
+    } else {
+      // Normal first visit: play the full NFC intro.
+      window.setTimeout(() => {
+        revealPage();
+      }, 4200);
+    }
+
+    // Handle internal # links without letting Chrome re-trigger the intro state.
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (event) => {
+        const hash = link.getAttribute('href');
+
+        if (!hash || hash === '#') return;
+
+        const target = document.querySelector(hash);
+        if (!target) return;
+
+        event.preventDefault();
+        history.pushState(null, '', hash);
+
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
+    });
+
+    // Back/forward between hash sections should never replay the intro.
+    window.addEventListener('popstate', () => {
+      revealPage();
+      scrollToHash(window.location.hash, false);
+    });
   });
 </script>
 
